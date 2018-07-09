@@ -1,0 +1,6 @@
+
+Init (if too dumb to start from the web)
+git remote add origin https://github.com/MagicManFoli/RGB_Clock
+git branch -u origin/master master
+git pull --allow-unrelated-histories
+

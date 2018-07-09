@@ -17,11 +17,13 @@ desc: This class is used to manage all components for a selfmade clock.
 #include "HW_manager.h"     // IO & more
 
 
-class clock_manager{
+class clock_manager
+{
 private:
     LED_manager leds;
     RTC_manager rtc;
     HW_manager hw;
+    
 
 public:
     clock_manager();
