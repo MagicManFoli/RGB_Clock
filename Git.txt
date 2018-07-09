@@ -4,3 +4,7 @@ git remote add origin https://github.com/MagicManFoli/RGB_Clock
 git branch -u origin/master master
 git pull --allow-unrelated-histories
 
+click tree icon on left side to manage commits and add messages
+
+allow periodically "git fetch" to be updated about state of repository
+click arrowcircle button to automatically "pull" and "push"

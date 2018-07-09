@@ -1,9 +1,13 @@
 #pragma once
 
-/* ------ INFOS ------ *\
-author: Robin Modisch
+/** ------ INFOS ------ *\
 
-desc: This class is used to manage all components for a selfmade clock.
+This class is used to manage all components for a selfmade clock.
+
+
+
+@author: Robin Modisch
+@version: 0.1
 
 ---------- TODO ----------
 1. Everything
@@ -23,11 +27,18 @@ private:
     LED_manager leds;
     RTC_manager rtc;
     HW_manager hw;
-    
+
 
 public:
     clock_manager();
-    tick();     // time as parameter?
+
+    /**
+     * looping execution of main thread, called from loop
+     * 
+     * @param ??
+     * @return nothing
+     */
+    void tick();     // time as parameter?
 
 
 
