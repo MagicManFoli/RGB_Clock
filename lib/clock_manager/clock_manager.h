@@ -10,9 +10,11 @@ This class is used to manage all components for a selfmade clock.
 @version: 0.1
 
 ---------- TODO ----------
-1. Everything
-2. Singleton? IO needs to be
 
+- decoding of H:M to LEDs in clock or LED?
+    both need to know number of LEDs
+- Singleton? IO definitely needs to be
+- move incHour/Minute to RTC?
 
 *\ --------------------*/
 
@@ -23,23 +25,53 @@ This class is used to manage all components for a selfmade clock.
 
 class clock_manager
 {
-private:
-    LED_manager leds;
-    RTC_manager rtc;
-    HW_manager hw;
+    public:
+        clock_manager();
 
+        /**
+         * looping execution of main thread, called from loop
+         * 
+         * @param ?? // time as parameter?
+         * @return nothing
+         */
+        void tick();
 
-public:
-    clock_manager();
+    //protected:
 
-    /**
-     * looping execution of main thread, called from loop
-     * 
-     * @param ??
-     * @return nothing
-     */
-    void tick();     // time as parameter?
+    private:
+        LED_manager leds;
+        RTC_manager rtc;
+        HW_manager hw;
 
+        unsigned long last_call = 0;
 
+        /**
+         * this function registers this classes function at the hardware manager.
+         * 
+         * BT1 = Hour++
+         * BT2 = Minute++
+         * BT3 = 
+         * 
+         */
+        void register_buttons();
 
-}
+        /**
+         * reads rtc hour, increments by one and writes back
+         * then updates LEDs
+         * 
+         */
+        void incHour();
+
+        /**
+         * same as inHour, just for minutes
+         * 
+         * 
+         */
+        void incMinute();
+
+        /**
+         * debug function, prints duration of one tick to Serial
+         * 
+         */
+        void show_cycletime();
+};

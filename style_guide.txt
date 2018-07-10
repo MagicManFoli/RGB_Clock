@@ -6,11 +6,15 @@ braces in next line
 add "editor.rulers": [80] to User settings
 
 all classes go into lib\name_of_class
-use Doxygen style function headers when reasonable
 define magic numbers on top of a file
 expose only as much of a class as needed
 
+use Doxygen style function headers in header when reasonable
+
 prevent global variables if possible
+use uint8_t and friends instead of generic ints
+
+use if(debug){} when dealing with Serial output 
 
 
 DRY, KISS, YAGNI, SOLID, ...

@@ -1,3 +1,4 @@
+--- General Tips for Git ---
 
 Init (if too dumb to start from the web)
 git remote add origin https://github.com/MagicManFoli/RGB_Clock
@@ -6,5 +7,6 @@ git pull --allow-unrelated-histories
 
 click tree icon on left side to manage commits and add messages
 
-allow periodically "git fetch" to be updated about state of repository
+allow to periodically "git fetch" to be updated about state of repository
 click arrowcircle button to automatically "pull" and "push"
+

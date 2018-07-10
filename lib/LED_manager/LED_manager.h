@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 /* ------ INFOS ------ *\
 author: ??
 
@@ -12,11 +14,11 @@ desc: This class manages all interactions with the LEDs.
 
 class LED_manager
 {
-private:
+    private:
+        const uint8_t n_leds = 24;
 
+    public:
+        
 
-public:
-    
-
-}
+};
 

@@ -1,8 +1,10 @@
 
 /* ------ INFOS ------ *\
-author: Robin Modisch
 
-desc: This class is used to manage all components for a selfmade clock.
+This program controls a selfmade clock based around RGB-LEDs
+
+@author: Robin Modisch, Sven Kiebler
+@version: 0.1
 
 ---------- TODO ----------
 1. Everything
@@ -10,17 +12,30 @@ desc: This class is used to manage all components for a selfmade clock.
 *\ --------------------*/
 
 #include <Arduino.h>
+#include <stdint.h>
+
+#include "settings.h"
 #include "clock_manager.h"
 
 clock_manager clock;
 
-void setup() {
-    // put your setup code here, to run once:
-
-
-    clock = new clock_manager();
+// put your setup code here, to run once:
+void setup() 
+{
+    if (debug)
+    {
+        Serial.begin(9600);
+        Serial.println();
+        Serial.println(F("Welcome to RGB_clock"));
+        Serial.println(F("Debug mode is activated"));
+    } 
 }
 
-void loop() {
-    // put your main code here, to run repeatedly:
+// put your main code here, to run repeatedly:
+void loop() 
+{
+    clock.tick();
+
+    // wait to give slow human interaction time to react 
+    if (debug) delay(2000);    
 }
