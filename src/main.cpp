@@ -12,7 +12,6 @@ This program controls a selfmade clock based around RGB-LEDs
 *\ --------------------*/
 
 #include <Arduino.h>
-#include <stdint.h>
 
 #include "settings.h"
 #include "clock_manager.h"
@@ -35,6 +34,9 @@ void setup()
 void loop() 
 {
     clock.tick();
+
+
+
 
     // wait to give slow human interaction time to react 
     if (debug) delay(2000);    

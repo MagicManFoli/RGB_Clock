@@ -9,12 +9,13 @@ all classes go into lib\name_of_class
 define magic numbers on top of a file
 expose only as much of a class as needed
 
-use Doxygen style function headers in header when reasonable
+use Doxygen style (Java) comment blocks in header when reasonable
+http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html 
 
 prevent global variables if possible
 use uint8_t and friends instead of generic ints
 
-use if(debug){} when dealing with Serial output 
+use if(debug){} when dealing with Serial and other temporary output 
 
 
 DRY, KISS, YAGNI, SOLID, ...

@@ -12,10 +12,11 @@ desc: This class manages all interactions with the LEDs.
 
 *\ --------------------*/
 
+
+
 class LED_manager
 {
     private:
-        const uint8_t n_leds = 24;
 
     public:
         

@@ -15,8 +15,13 @@ This class is used to manage all components for a selfmade clock.
     both need to know number of LEDs
 - Singleton? IO definitely needs to be
 - move incHour/Minute to RTC?
+- listeners need to be static, members not allowed
+    -> make everything static or find clever differentiation?
 
 *\ --------------------*/
+
+#include <Arduino.h>
+#include "settings.h"
 
 #include "LED_manager.h"    // FastLED wrapper
 #include "RTC_manager.h"    // clock module get/set
@@ -43,6 +48,7 @@ class clock_manager
         RTC_manager rtc;
         HW_manager hw;
 
+        // used to estimate loop time
         unsigned long last_call = 0;
 
         /**
@@ -73,5 +79,5 @@ class clock_manager
          * debug function, prints duration of one tick to Serial
          * 
          */
-        void show_cycletime();
+        void print_looptime(unsigned long delta_t);
 };
