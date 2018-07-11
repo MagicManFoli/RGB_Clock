@@ -1,13 +1,7 @@
 #include "clock_manager.h"
 
-
-
-clock_manager::clock_manager()
-{
-    clock_manager::clock = this;
-
-    this->register_buttons();
-}
+// initialise static
+unsigned long clock_manager::last_call = millis();
 
 void clock_manager::tick()
 {
@@ -17,6 +11,9 @@ void clock_manager::tick()
 
     if (debug) print_looptime(delta_t);
 
+    // update hardware manager
+    HW_manager::check_change();
+
     last_call = now;
 }
 
@@ -24,8 +21,8 @@ void clock_manager::tick()
 
 void clock_manager::register_buttons()
 {
-    hw.add_listener(0, &(clock->inc_hour));
-    hw.add_listener(1, &(clock->inc_minute));
+    HW_manager::add_listener(0, &inc_hour);
+    HW_manager::add_listener(1, &inc_minute);
     //hw.add_listener(2, &(clock->DimLight));
 }
 

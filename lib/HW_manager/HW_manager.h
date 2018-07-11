@@ -50,16 +50,12 @@ const uint8_t buttons[] = {14, 12, 13};
 class HW_manager
 {
 private:
-    static HW_manager *hw;
+    //static HW_manager *instance;
 
     // list of pointers to handlers, index of list is index of button
-    f_listener *listener_list[n_buttons];
+    static f_listener *listener_list[n_buttons];
 
-    /**
-     * attaches interrupts to physical channels
-     * 
-     */
-    void attach_interrupts();
+    static volatile uint8_t last_pressed;
 
     static void handle_interrupt();
 
@@ -68,11 +64,17 @@ private:
      * 
      * @param index index of physical button
      */
-    void call_BT(uint8_t index);
+    static void call_BT(uint8_t index);
 
 public:
 
-    HW_manager();    
+    HW_manager() = delete;    
+
+    /**
+     * attaches interrupts to physical channels
+     * 
+     */
+    static void attach_interrupts();
 
     /**
      * add handler to be called when a button was pressed
@@ -80,6 +82,9 @@ public:
      * @param index index of physical button
      * @param handler function to be called when button was pressed
      */
-    void add_listener(uint8_t index, f_listener handler);
+    static void add_listener(uint8_t index, f_listener handler);
+
+    static void check_change();
 
 };
+

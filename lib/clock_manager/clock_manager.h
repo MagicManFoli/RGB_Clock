@@ -13,10 +13,10 @@ This class is used to manage all components for a selfmade clock.
 
 - decoding of H:M to LEDs in clock or LED?
     both need to know number of LEDs
-- Singleton? IO definitely needs to be
 - move incHour/Minute to RTC?
-- listeners need to be static, members not allowed
-    -> make everything static or find clever differentiation?
+
+- what use has a fully static class compared to a namespace?
+    global variables?
 
 *\ --------------------*/
 
@@ -30,38 +30,14 @@ This class is used to manage all components for a selfmade clock.
 
 class clock_manager
 {
-    public:
-        clock_manager();
-
-        /**
-         * looping execution of main thread, called from loop
-         * 
-         * @param ?? // time as parameter?
-         * @return nothing
-         */
-        void tick();
-
-    //protected:
-
     private:
-        static clock_manager *clock;
-
+/*
         LED_manager leds;
         RTC_manager rtc;
         HW_manager hw;
-
+*/
         // used to estimate loop time
-        unsigned long last_call = 0;
-
-        /**
-         * this function registers this classes function at the hardware manager.
-         * 
-         * BT1 = Hour++
-         * BT2 = Minute++
-         * BT3 = 
-         * 
-         */
-        void register_buttons();
+        static unsigned long last_call;
 
         /**
          * reads rtc hour, increments by one and writes back
@@ -81,5 +57,30 @@ class clock_manager
          * debug function, prints duration of one tick to Serial
          * 
          */
-        void print_looptime(unsigned long delta_t);
+        static void print_looptime(unsigned long delta_t);
+
+    public:
+        clock_manager() = delete;
+
+
+        /**
+         * this function registers this classes function at the hardware manager.
+         * 
+         * BT1 = Hour++
+         * BT2 = Minute++
+         * BT3 = 
+         * 
+         */
+        static void register_buttons();
+
+        /**
+         * looping execution of main thread, called from loop
+         * 
+         * @param ?? // time as parameter?
+         * @return nothing
+         */
+        static void tick();
+
+    //protected:
 };
+
