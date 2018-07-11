@@ -4,7 +4,31 @@
 
 This class manages the hardware, notably the three buttons used.
 
+Implementation in statics because interrupts can't be member functions
+
 buttons are counted in rows from top left to bottom right, starting at 0
+Short input to GND to trigger
+
+Board | Function                 | ESP8266 Pin
+----------------------------------------------
+|TX |TXD                         |TXD   |
+|RX |RXD                         |RXD   |
+|A0 |Analog input, max 3.3V input|A0    |
+|D0 |IO                          |GPIO16|
+|D1 |IO, SCL                     |GPIO5 |
+|D2 |IO, SDA                     |GPIO4 |
+|D3 |IO, 10k Pull-up             |GPIO0 |
+|D4 |IO, 10k Pull-up, BUILTIN_LED|GPIO2 |
+|D5 |IO, SCK                     |GPIO14|
+|D6 |IO, MISO                    |GPIO12|
+|D7 |IO, MOSI                    |GPIO13|
+|D8 |IO, 10k Pull-down, SS       |GPIO15|
+|G  |Ground                      |GND   |
+|5V |5V                          |-     |
+|3V3|3.3V                        |3.3V  |
+|RST|Reset                       |RST   |
+
+Buttons used in code are from the right side, connected to left
 
 @author: ??
 @version: 0.0
@@ -20,12 +44,24 @@ buttons are counted in rows from top left to bottom right, starting at 0
 // definition for all handlers 
 typedef void (*f_listener)();
 
+// D5 to D7
+const uint8_t buttons[] = {14, 12, 13};
+
 class HW_manager
 {
 private:
+    static HW_manager *hw;
+
     // list of pointers to handlers, index of list is index of button
     f_listener *listener_list[n_buttons];
 
+    /**
+     * attaches interrupts to physical channels
+     * 
+     */
+    void attach_interrupts();
+
+    static void handle_interrupt();
 
     /**
      * intermediate function to be called from code to signal a button press
@@ -36,7 +72,7 @@ private:
 
 public:
 
-    HW_manager();
+    HW_manager();    
 
     /**
      * add handler to be called when a button was pressed

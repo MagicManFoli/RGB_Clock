@@ -12,7 +12,8 @@ desc: This class manages all interactions with the LEDs.
 
 *\ --------------------*/
 
-
+#include <Arduino.h>
+#include "settings.h"
 
 class LED_manager
 {

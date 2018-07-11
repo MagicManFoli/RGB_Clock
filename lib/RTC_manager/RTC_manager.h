@@ -13,12 +13,15 @@ This class manages the Real-Time-Clock.
 
 *\ --------------------*/
 
+#include <Arduino.h>
+#include "settings.h"
+
 class RTC_manager
 {
-private:
+    private:
 
 
-public:
+    public:
     
 
 };

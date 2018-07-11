@@ -44,6 +44,8 @@ class clock_manager
     //protected:
 
     private:
+        static clock_manager *clock;
+
         LED_manager leds;
         RTC_manager rtc;
         HW_manager hw;
@@ -66,14 +68,14 @@ class clock_manager
          * then updates LEDs
          * 
          */
-        void incHour();
+        static void inc_hour();
 
         /**
          * same as inHour, just for minutes
          * 
          * 
          */
-        void incMinute();
+        static void inc_minute();
 
         /**
          * debug function, prints duration of one tick to Serial

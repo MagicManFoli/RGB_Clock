@@ -38,6 +38,6 @@ void loop()
 
 
 
-    // wait to give slow human interaction time to react 
+    // wait for human interaction time 
     if (debug) delay(2000);    
 }
