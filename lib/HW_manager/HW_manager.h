@@ -34,8 +34,8 @@ Buttons used in code are from the right side, connected to left
 @version: 0.0
 
 ---------- TODO ----------
-1. Everything
-
+1. buttons are not identified correctly, always BT2
+2. program dies due to exception when calling listeners
 *\ --------------------*/
 
 #include <Arduino.h>
@@ -44,8 +44,7 @@ Buttons used in code are from the right side, connected to left
 // definition for all handlers 
 typedef void (*f_listener)();
 
-// D5 to D7
-const uint8_t buttons[] = {14, 12, 13};
+
 
 class HW_manager
 {
@@ -56,6 +55,8 @@ private:
     static f_listener *listener_list[n_buttons];
 
     static volatile uint8_t last_pressed;
+    static volatile bool last_states[n_buttons];
+    static volatile unsigned long last_trigger[n_buttons];
 
     static void handle_interrupt();
 
@@ -64,7 +65,7 @@ private:
      * 
      * @param index index of physical button
      */
-    static void call_BT(uint8_t index);
+    static void call_listener(uint8_t index);
 
 public:
 

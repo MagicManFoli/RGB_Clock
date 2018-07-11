@@ -3,6 +3,8 @@
 // initialise static
 f_listener *HW_manager::listener_list[n_buttons];
 volatile uint8_t HW_manager::last_pressed = 255;
+volatile bool HW_manager::last_states[n_buttons] = {false};
+volatile unsigned long HW_manager::last_trigger[n_buttons] = {0};
 
 void HW_manager::add_listener(uint8_t index, f_listener handler)
 {
@@ -21,7 +23,7 @@ void HW_manager::attach_interrupts()
 {
 
     // attach each interrupt pin from list
-    for (int i=0; i < n_buttons; i++)
+    for (uint8_t i=0; i < n_buttons; i++)
     {
         if (debug)
         {
@@ -37,13 +39,37 @@ void HW_manager::attach_interrupts()
 
 void HW_manager::handle_interrupt()
 {
-    // debounce
 
     // find out which button was pressed
 
+    uint8_t index = 255;    // unrealistic default
+
+    // check all buttons
+    for (uint8_t i = 0; i < n_buttons; i++)
+    {
+        // found changed pin
+        if (last_states[i] != !digitalRead(i))
+        {
+            index = i;
+            last_states[i] = !digitalRead(i);
+            break;
+        }
+    }
+
+    // save current time as reference
+    unsigned long now = millis();
+
+    // still bouncing
+    if ((now - last_trigger[index]) < t_debounce )  
+    {
+        last_trigger[index] = millis(); // update for next bounce
+        return;
+    }
+
+    // stable, using it
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 
-    last_pressed = 2;
+    last_pressed = index;
 }
 
 void HW_manager::check_change()
@@ -56,12 +82,13 @@ void HW_manager::check_change()
             Serial.println(last_pressed);
         }
 
-        //HW_manager::call_BT(last_pressed);
+        //TODO what is wrong with this?
+        //HW_manager::call_listener(last_pressed);
         last_pressed = 255;
     }
 }
 
-void HW_manager::call_BT(uint8_t index)
+void HW_manager::call_listener(uint8_t index)
 {
     // unpack function pointer from list and call
     (*listener_list[index])();

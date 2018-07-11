@@ -23,18 +23,26 @@ void clock_manager::register_buttons()
 {
     HW_manager::add_listener(0, &inc_hour);
     HW_manager::add_listener(1, &inc_minute);
-    //hw.add_listener(2, &(clock->DimLight));
+    HW_manager::add_listener(2, &dim_light);
 }
 
 void clock_manager::inc_hour()
 {
+    if (debug) Serial.println(F("inc_hour"));
     // don't forget wraparound
-    if (debug) Serial.println(F("incHour"));
+    
 }
 
 void clock_manager::inc_minute()
 {
+    if (debug) Serial.println(F("inc_minute"));
     // add leds.get_n_leds()/60 minutes
+
+}
+
+void clock_manager::dim_light()
+{
+    if (debug) Serial.println(F("dim_light"));
 
 }
 
