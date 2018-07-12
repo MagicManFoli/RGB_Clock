@@ -37,7 +37,7 @@ void setup()
     // connect physical buttons
     HW_manager::attach_interrupts();
 
-    if (debug) delay(1000);
+    if (debug) delay(2000);
 }
 
 // put your main code here, to run repeatedly:
@@ -46,5 +46,5 @@ void loop()
     clock_manager::tick();
 
     // wait for human interaction time 
-    if (debug) delay(2000);    
+    if (debug) delay(1000);    
 }

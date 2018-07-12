@@ -37,6 +37,7 @@ void HW_manager::attach_interrupts()
     pinMode(LED_BUILTIN, OUTPUT);
 }
 
+// called when pulled to GND
 void HW_manager::handle_interrupt()
 {
 
@@ -48,7 +49,7 @@ void HW_manager::handle_interrupt()
     for (uint8_t i = 0; i < n_buttons; i++)
     {
         // found changed pin
-        if (last_states[i] != !digitalRead(buttons[i]))
+        if (last_states[i] != !digitalRead(buttons[i])) // should be !0 == 1
         {
             index = i;
             last_states[i] = !digitalRead(buttons[i]);
@@ -64,9 +65,11 @@ void HW_manager::handle_interrupt()
     // still bouncing
     if ((now - last_trigger[index]) < t_debounce )  
     {
-        last_trigger[index] = millis(); // update for next bounce
+        last_trigger[index] = now; // update for next bounce
         return;
     }
+
+    last_trigger[index] = now; // update for next bounce
 
     // stable, using it
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
