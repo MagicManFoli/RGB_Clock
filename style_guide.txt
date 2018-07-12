@@ -17,5 +17,6 @@ use uint8_t and friends instead of generic ints
 
 use if(debug){} when dealing with Serial and other temporary output 
 
+personal includes with "", generic libraries with <>
 
 DRY, KISS, YAGNI, SOLID, ...
