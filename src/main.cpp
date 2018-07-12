@@ -7,7 +7,7 @@ This program controls a selfmade clock based around RGB-LEDs
 @version: 0.1
 
 ---------- TODO ----------
-1. Everything
+1. Alles
 
 *\ --------------------*/
 
