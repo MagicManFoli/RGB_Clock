@@ -48,13 +48,15 @@ void HW_manager::handle_interrupt()
     for (uint8_t i = 0; i < n_buttons; i++)
     {
         // found changed pin
-        if (last_states[i] != !digitalRead(i))
+        if (last_states[i] != !digitalRead(buttons[i]))
         {
             index = i;
-            last_states[i] = !digitalRead(i);
+            last_states[i] = !digitalRead(buttons[i]);
             break;
         }
     }
+
+    //if (debug && index == 255) Serial.println(F("err: no index found"));
 
     // save current time as reference
     unsigned long now = millis();
