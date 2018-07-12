@@ -10,3 +10,4 @@ click tree icon on left side to manage commits and add messages
 allow to periodically "git fetch" to be updated about state of repository
 click arrowcircle button to automatically "pull" and "push"
 
+git rm --cached .vscode/settings.json
