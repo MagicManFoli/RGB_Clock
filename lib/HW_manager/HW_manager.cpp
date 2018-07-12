@@ -71,6 +71,9 @@ void HW_manager::handle_interrupt()
 
     last_trigger[index] = now; // update for next bounce
 
+    // if state after bouncing is off ignore
+    if (!digitalRead(buttons[index]) == false) return;
+
     // stable, using it
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 
@@ -79,9 +82,10 @@ void HW_manager::handle_interrupt()
 
 void HW_manager::check_change()
 {
+    //something has changed, find out what
     if (last_pressed != 255)
     {
-        if (debug)  
+        if (debug)
         {
             Serial.print(F("Button pressed: "));
             Serial.println(last_pressed);

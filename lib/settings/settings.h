@@ -21,4 +21,4 @@ const uint8_t n_buttons = 3;
 const uint8_t buttons[] = {D5, D6, D7};
 
 // time to wait for stable signal in ms
-const uint16_t t_debounce = 50;
+const uint16_t t_debounce = 200;
