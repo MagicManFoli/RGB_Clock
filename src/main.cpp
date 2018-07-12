@@ -8,6 +8,8 @@ This program controls a selfmade clock based around RGB-LEDs
 
 ---------- TODO ----------
 1. Everything
+2. I've done it better
+
 
 *\ --------------------*/
 
