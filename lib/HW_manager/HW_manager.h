@@ -30,12 +30,14 @@ Board | Function                 | ESP8266 Pin
 
 Buttons used in code are from the right side, connected to left
 
-@author: ??
+@author: Robin Modisch
 @version: 0.0
 
 ---------- TODO ----------
-1. buttons are not identified correctly, always BT2
+1. buttons can't be pressed multiple times
 2. program dies due to exception when calling listeners
+
+
 *\ --------------------*/
 
 #include <Arduino.h>
@@ -43,8 +45,6 @@ Buttons used in code are from the right side, connected to left
 
 // definition for all handlers 
 typedef void (*f_listener)();
-
-
 
 class HW_manager
 {
@@ -57,19 +57,25 @@ private:
     static volatile bool state_changed;
     static volatile bool changed[n_buttons];
     static volatile bool last_states[n_buttons];
-    static volatile unsigned long last_trigger;
 
+    /**
+     * debounce and check which button was pressed
+     * 
+     * refreshes state_changed, changed and last_states
+     * 
+     */
     static void handle_interrupt();
 
     /**
      * intermediate function to be called from code to signal a button press
      * 
      * @param index index of physical button
+     * @return success
      */
-    static void call_listener(uint8_t index);
+    static bool call_listener(uint8_t index);
 
 public:
-
+    // static class, no initialisation
     HW_manager() = delete;    
 
     /**
@@ -83,8 +89,9 @@ public:
      * 
      * @param index index of physical button
      * @param handler function to be called when button was pressed
+     * @return success
      */
-    static void add_listener(uint8_t index, f_listener handler);
+    static bool add_listener(uint8_t index, f_listener handler);
 
     static void check_change();
 

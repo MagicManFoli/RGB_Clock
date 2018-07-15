@@ -22,3 +22,4 @@ const uint8_t n_buttons = sizeof(buttons)/sizeof(uint8_t);  //automatic
 
 // time to wait for stable signal in ms (adafruit says 5+ ms)
 const uint16_t t_debounce = 50;
+

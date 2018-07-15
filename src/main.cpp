@@ -25,7 +25,7 @@ void setup()
 {
     if (debug)
     {
-        Serial.begin(9600);
+        Serial.begin(115200);
         Serial.println();
         Serial.println(F("Welcome to RGB_clock"));
         Serial.println(F("Debug mode is activated"));

@@ -1,15 +1,16 @@
 #include "HW_manager.h"
 
 // initialise static
-f_listener *HW_manager::listener_list[n_buttons];
+f_listener *HW_manager::listener_list[n_buttons] = {NULL};
 
 volatile bool HW_manager::state_changed = false;
 volatile bool HW_manager::changed[n_buttons] = {false};
 volatile bool HW_manager::last_states[n_buttons] = {false};
-volatile unsigned long HW_manager::last_trigger = millis();
 
-void HW_manager::add_listener(uint8_t index, f_listener handler)
+bool HW_manager::add_listener(uint8_t index, f_listener handler)
 {
+    if (index >= n_buttons) return false;
+
     if (debug) 
     {
         Serial.print(F("adding listener for "));
@@ -17,6 +18,8 @@ void HW_manager::add_listener(uint8_t index, f_listener handler)
     }
 
     listener_list[index] = &handler;
+
+    return true;
 }
 
 void HW_manager::check_change()
@@ -25,8 +28,7 @@ void HW_manager::check_change()
     //something has changed, find out what
     if (state_changed)
     {
-
-
+        //call every changed
         for (uint8_t i = 0; i < n_buttons; i++)
         {
             if (changed[i])
@@ -41,7 +43,7 @@ void HW_manager::check_change()
                 }
 
                 //TODO what is wrong with this?
-                //HW_manager::call_listener(last_pressed);
+                //HW_manager::call_listener(i);
             }
         }
 
@@ -91,6 +93,8 @@ void HW_manager::attach_interrupts()
 // called when pulled to GND
 void HW_manager::handle_interrupt()
 {
+    static volatile unsigned long last_trigger = millis();
+
     // save current time as reference
     unsigned long now = millis();
 
@@ -101,9 +105,10 @@ void HW_manager::handle_interrupt()
     if (last_trigger > now )    // every 49 days
     {
         last_trigger = now;
+        return;
     }
 
-    // -- ignore second call from bouncing
+    // -- ignore second+ call from bouncing
 
     // called too soon, must be bounce
     if ((now - last_trigger) < t_debounce )  
@@ -143,9 +148,19 @@ void HW_manager::handle_interrupt()
     state_changed = true;
 }
 
-void HW_manager::call_listener(uint8_t index)
+bool HW_manager::call_listener(uint8_t index)
 {
+    if (index >= n_buttons) return false;
+
+    // check for value
+    if (listener_list[index] == NULL) 
+    {
+        if (debug) Serial.println(F("Listener not initialised"));
+        return false;
+    }
     // unpack function pointer from list and call
     (*listener_list[index])();
+
+    return true;
 }
 

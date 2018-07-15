@@ -32,11 +32,7 @@ This class is used to manage all components for a selfmade clock.
 class clock_manager
 {
     private:
-/*
-        LED_manager leds;
-        RTC_manager rtc;
-        HW_manager hw;
-*/
+
         // used to estimate loop time
         static unsigned long last_call;
 
@@ -68,6 +64,7 @@ class clock_manager
         static void print_looptime(unsigned long delta_t);
 
     public:
+        // static class, no initialisation
         clock_manager() = delete;
 
 

@@ -26,9 +26,9 @@ void clock_manager::tick()
 
 void clock_manager::register_buttons()
 {
-    HW_manager::add_listener(0, &inc_hour);
-    HW_manager::add_listener(1, &inc_minute);
-    HW_manager::add_listener(2, &dim_light);
+    HW_manager::add_listener(0, inc_hour);
+    HW_manager::add_listener(1, inc_minute);
+    HW_manager::add_listener(2, dim_light);
 }
 
 void clock_manager::inc_hour()
