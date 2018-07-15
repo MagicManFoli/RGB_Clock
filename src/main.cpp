@@ -46,5 +46,5 @@ void loop()
     clock_manager::tick();
 
     // wait for human interaction time 
-    if (debug) delay(1000);    
+    //if (debug) delay(1000);    
 }

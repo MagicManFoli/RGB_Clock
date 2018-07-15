@@ -7,12 +7,17 @@ void clock_manager::tick()
 {
     // define last value to get difference
     unsigned long now = millis();
-    unsigned long delta_t = now - last_call;
+    //unsigned long delta_t = now - last_call;
+    //if (debug) print_looptime(delta_t);
 
-    if (debug) print_looptime(delta_t);
-
-    // update hardware manager
+    // INPUT: update hardware manager
     HW_manager::check_change();
+
+    // INPUT2: get time
+    //...
+
+    // OUTPUT: display LEDs
+    //...
 
     last_call = now;
 }

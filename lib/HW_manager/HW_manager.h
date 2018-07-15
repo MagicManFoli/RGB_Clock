@@ -54,9 +54,10 @@ private:
     // list of pointers to handlers, index of list is index of button
     static f_listener *listener_list[n_buttons];
 
-    static volatile uint8_t last_pressed;
+    static volatile bool state_changed;
+    static volatile bool changed[n_buttons];
     static volatile bool last_states[n_buttons];
-    static volatile unsigned long last_trigger[n_buttons];
+    static volatile unsigned long last_trigger;
 
     static void handle_interrupt();
 
@@ -87,5 +88,11 @@ public:
 
     static void check_change();
 
+    /**
+     * read button states from port & return
+     * 
+     * @return pointer to array of corrected states of buttons
+     */
+    static bool* get_button_states();
 };
 
