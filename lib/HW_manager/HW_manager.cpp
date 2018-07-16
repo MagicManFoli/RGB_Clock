@@ -28,6 +28,18 @@ void HW_manager::check_change()
     //something has changed, find out what
     if (state_changed)
     {
+        if(debug) 
+        {
+            Serial.print(F("curr_states: "));
+            print_array(get_button_states());
+
+            Serial.print(F("last_states: "));
+            print_array(last_states);
+
+            Serial.print(F("changed:     "));
+            print_array(changed);
+        }
+
         //call every changed
         for (uint8_t i = 0; i < n_buttons; i++)
         {
@@ -51,7 +63,7 @@ void HW_manager::check_change()
     }
 }
 
-bool* HW_manager::get_button_states()
+const bool* HW_manager::get_button_states()
 {
     static bool curr_states[n_buttons];
 
@@ -62,6 +74,19 @@ bool* HW_manager::get_button_states()
     }
 
     return curr_states;
+}
+
+void HW_manager::print_array(const volatile bool* array)
+{
+    // print all
+    for (uint8_t i = 0; i < n_buttons; i++)
+    {
+        Serial.print(i);
+        Serial.print(F(" = "));
+        Serial.print(array[i]);
+        Serial.print(F(", "));
+    }
+    Serial.println(F("; "));
 }
 
 // ----------- private ----------
@@ -84,7 +109,7 @@ void HW_manager::attach_interrupts()
         }
         pinMode(buttons[i], INPUT_PULLUP);  // trigger with GND
         // invert flank logic because of inverted trigger
-        attachInterrupt(digitalPinToInterrupt(buttons[i]), handle_interrupt, FALLING);
+        attachInterrupt(digitalPinToInterrupt(buttons[i]), handle_interrupt, CHANGE);
     }
 
     pinMode(LED_BUILTIN, OUTPUT);
@@ -99,7 +124,8 @@ void HW_manager::handle_interrupt()
     unsigned long now = millis();
 
     // first change is always correct, get button-snapshot
-    bool *curr_states = get_button_states();
+    // make sure to not modify it, pointer from function
+    const bool *curr_states = get_button_states();
 
     // millis had wraparound, rare corner case
     if (last_trigger > now )    // every 49 days
@@ -125,7 +151,7 @@ void HW_manager::handle_interrupt()
     for (uint8_t i = 0; i < n_buttons; i++)
     {
         // found pin with positive flank
-        if (curr_states[i] != last_states[i])
+        if (last_states[i] != curr_states[i])
         {
             // prevent second processing & reset
             last_states[i] = curr_states[i];
@@ -143,9 +169,6 @@ void HW_manager::handle_interrupt()
     }
 
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-
-    // works like a return value
-    state_changed = true;
 }
 
 bool HW_manager::call_listener(uint8_t index)

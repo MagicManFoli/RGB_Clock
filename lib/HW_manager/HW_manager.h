@@ -100,6 +100,8 @@ public:
      * 
      * @return pointer to array of corrected states of buttons
      */
-    static bool* get_button_states();
+    static const bool* get_button_states();
+
+    static void print_array(const volatile bool* array);
 };
 
