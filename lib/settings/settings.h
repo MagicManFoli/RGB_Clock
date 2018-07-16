@@ -15,6 +15,10 @@ this file is used to set global parameters for all modules
 // activate or deactivate helper segments
 #define debug true
 
+#define hw_debug false
+
+
+
 const uint8_t n_leds = 24;
 
 const uint8_t buttons[] = {D5, D6, D7};

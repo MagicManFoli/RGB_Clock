@@ -1,23 +1,23 @@
 #include "HW_manager.h"
 
 // initialise static
-f_listener *HW_manager::listener_list[n_buttons] = {NULL};
+f_listener HW_manager::listener_list[n_buttons] = {NULL};
 
 volatile bool HW_manager::state_changed = false;
 volatile bool HW_manager::changed[n_buttons] = {false};
 volatile bool HW_manager::last_states[n_buttons] = {false};
 
-bool HW_manager::add_listener(uint8_t index, f_listener handler)
+bool HW_manager::add_listener(const uint8_t index, f_listener handler)
 {
     if (index >= n_buttons) return false;
 
-    if (debug) 
+    if (hw_debug) 
     {
         Serial.print(F("adding listener for "));
         Serial.println(index);
     }
 
-    listener_list[index] = &handler;
+    listener_list[index] = handler;
 
     return true;
 }
@@ -28,11 +28,8 @@ void HW_manager::check_change()
     //something has changed, find out what
     if (state_changed)
     {
-        if(debug) 
+        if(hw_debug) 
         {
-            Serial.print(F("curr_states: "));
-            print_array(get_button_states());
-
             Serial.print(F("last_states: "));
             print_array(last_states);
 
@@ -54,8 +51,8 @@ void HW_manager::check_change()
                     Serial.println(i);
                 }
 
-                //TODO what is wrong with this?
-                //HW_manager::call_listener(i);
+                // call handler for button
+                HW_manager::call_listener(i);
             }
         }
 
@@ -65,7 +62,7 @@ void HW_manager::check_change()
 
 const bool* HW_manager::get_button_states()
 {
-    static bool curr_states[n_buttons];
+    static bool curr_states[n_buttons] = {false};
 
     // save all button states
     for (uint8_t i = 0; i < n_buttons; i++)
@@ -93,7 +90,7 @@ void HW_manager::print_array(const volatile bool* array)
 
 void HW_manager::attach_interrupts()
 {
-    if (debug) 
+    if (hw_debug) 
     {
         Serial.print(F("n_buttons: "));
         Serial.println(n_buttons);
@@ -102,7 +99,7 @@ void HW_manager::attach_interrupts()
     // attach each interrupt pin from list
     for (uint8_t i=0; i < n_buttons; i++)
     {
-        if (debug)
+        if (hw_debug)
         {
             Serial.print(F("attaching interrupt at "));
             Serial.println(buttons[i]);
@@ -171,14 +168,14 @@ void HW_manager::handle_interrupt()
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 }
 
-bool HW_manager::call_listener(uint8_t index)
+bool HW_manager::call_listener(const uint8_t index)
 {
     if (index >= n_buttons) return false;
 
     // check for value
     if (listener_list[index] == NULL) 
     {
-        if (debug) Serial.println(F("Listener not initialised"));
+        if (hw_debug) Serial.println(F("Listener not initialised"));
         return false;
     }
     // unpack function pointer from list and call

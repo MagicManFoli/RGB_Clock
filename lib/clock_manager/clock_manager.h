@@ -16,9 +16,6 @@ This class is used to manage all components for a selfmade clock.
 - move incHour/Minute to RTC?
 - move dim_light to LED?
 
-- what use has a fully static class compared to a namespace?
-    global variables?
-
 *\ --------------------*/
 
 #include <Arduino.h>

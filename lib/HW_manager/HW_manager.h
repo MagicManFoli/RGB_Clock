@@ -34,9 +34,7 @@ Buttons used in code are from the right side, connected to left
 @version: 0.0
 
 ---------- TODO ----------
-1. buttons can't be pressed multiple times
-2. program dies due to exception when calling listeners
-
+1. first button lost
 
 *\ --------------------*/
 
@@ -52,7 +50,7 @@ private:
     //static HW_manager *instance;
 
     // list of pointers to handlers, index of list is index of button
-    static f_listener *listener_list[n_buttons];
+    static f_listener listener_list[n_buttons];
 
     static volatile bool state_changed;
     static volatile bool changed[n_buttons];
@@ -72,7 +70,7 @@ private:
      * @param index index of physical button
      * @return success
      */
-    static bool call_listener(uint8_t index);
+    static bool call_listener(const uint8_t index);
 
 public:
     // static class, no initialisation
@@ -91,8 +89,14 @@ public:
      * @param handler function to be called when button was pressed
      * @return success
      */
-    static bool add_listener(uint8_t index, f_listener handler);
+    static bool add_listener(const uint8_t index, const f_listener handler);
 
+    /**
+     * 
+     * poll interrupt changes from main loop
+     * Never start from ISR!
+     * 
+     */
     static void check_change();
 
     /**
