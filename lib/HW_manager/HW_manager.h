@@ -31,7 +31,7 @@ Board | Function                 | ESP8266 Pin
 Buttons used in code are from the right side, connected to left
 
 @author: Robin Modisch
-@version: 0.0
+@version: 0.7
 
 ---------- TODO ----------
 1. first button lost

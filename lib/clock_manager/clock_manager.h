@@ -14,7 +14,6 @@ This class is used to manage all components for a selfmade clock.
 - decoding of H:M to LEDs in clock or LED?
     both need to know number of LEDs
 - move incHour/Minute to RTC?
-- move dim_light to LED?
 
 *\ --------------------*/
 
@@ -46,13 +45,6 @@ class clock_manager
          * 
          */
         static void inc_minute();
-
-        /**
-         * change brightness
-         * 
-         * 
-         */
-        static void dim_light();
 
         /**
          * debug function, prints duration of one tick to Serial

@@ -31,6 +31,9 @@ void setup()
         Serial.println(F("Debug mode is activated"));
     } 
 
+    // connect RGBs
+    LED_manager::setup();
+
     // connect clock manager to hardware_manager
     clock_manager::register_buttons();
 

@@ -12,6 +12,7 @@
         "initializer_list": "cpp",
         "functional": "cpp",
         "*.tcc": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "streambuf": "cpp"
     }
 }

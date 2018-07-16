@@ -15,7 +15,11 @@ http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
 prevent global variables if possible
 use uint8_t and friends instead of generic ints
 
-use if(debug){} when dealing with Serial and other temporary output 
+generic settings below to settings.h
+use const variables whenever possible to enable type checking
+-> will be optimised out either way
+
+use if(MODULE_debug){} when dealing with Serial and other temporary output 
 
 personal includes with "", generic libraries with <>
 
